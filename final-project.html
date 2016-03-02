@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Processing Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var x;
+        var y;
+        var xSpeed;
+        var ySpeed;
+        var bricks = [];
+
+        function setup() {
+            createCanvas(700, 500);
+            x = 0;
+            xSpeed = 10;
+            y = 449;
+            ySpeed = 45;
+        }
+
+        function draw() {
+            background(25);
+            fill(0, 125, 130);
+            rect(x, y, 40, 40); // Faced object 
+            fill(255, 0, 0);
+            ellipse(x + 21, y + 15, 20, 20);
+            fill(0, 255, 0);
+            ellipse(x + 21, y + 15, 10, 10);
+            fill(255, 0, 0);
+            ellipse(x + 21, y + 33, 20, 10);
+
+
+            x += xSpeed;
+
+             for(var i = 0; i < bricks.length; i++){
+            bricks[i].move();
+            bricks[i].display();
+            bricks[i].checkCollide();
+             }
+
+
+            if (x < 0 || x > width - 45) {
+                xSpeed *= -1;
+                bricks.push(new Brick());
+
+
+            }
+
+            y = constrain(y, 15, 455);
+
+        }
+
+        function Brick() {
+            this.x = random(width);
+            this.y = random(height);
+            this.speed = random(0, 10);
+
+            this.move = function() {
+                    this.y += this.speed;
+                    if (this.y > height) {
+                        this.y = 0;
+                    }
+                    if (this.y > height) {
+                        this.y = 0;
+                    }
+                } 
+
+            this.display = function() {
+                fill(255, 106, 0);
+                rect(this.x, this.y, 10, 10);
+
+            }
+
+            this.checkCollide = function() {
+
+                if (this.x + 10 > x && this.x < x + 40 && this.y + 10 > y && this.y < y + 40) {
+                    noLoop();
+                    text("GAME OVER!", width/2, height/2);
+                }
+
+            }
+        }
+
+
+        function keyPressed() {
+            if (key == "J" || key == "j") {
+                y -= ySpeed;
+            }
+             if (key == "F" || key == "f") {
+                y += ySpeed;
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+</body>
+
+</html>
